@@ -102,8 +102,8 @@ export default class Column {
 
   addCard(text, e) { // put to array, rerender
     this.cards.push(text);
-// get the click
-    const cardList = e.target.closest('.cardList');
+    const col = e.target.closest('.column');
+    const cardList = col.querySelector('.cardList');
     cardList.textContent = '';
 
     for (let i = 0; i < this.cards.length; i++) {
@@ -111,6 +111,8 @@ export default class Column {
 
       cardList.append(card);
     }
+
+    this.restoreFooter(e);
   }
 
   deleteCard(e) {
@@ -139,9 +141,11 @@ export default class Column {
     buttonAdd.type = 'button';
     buttonAdd.textContent = 'Add card';
     buttonAdd.addEventListener('click', e => {
-      const parent = e.target.closest('.footerAdd');
+      const parent = e.target.closest('.column__footer');
       const area = parent.querySelector('.footerArea');
-      this.addCard(area.value, e);
+      if (area.value !== '') {
+        this.addCard(area.value, e);
+      }
     })
     return buttonAdd;
   }
