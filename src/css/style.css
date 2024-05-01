@@ -94,3 +94,52 @@ body {
 .column__footer:hover {
   color: var(--main-color-darkestGrey);
 }
+
+.footerCont {
+  text-align: left;
+}
+
+.footerAdd {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerArea {
+  display: block;
+  font-family: inherit;
+  margin-bottom: 10px;
+  font-size: inherit;
+  border: 1px solid white;
+  height: 80px;
+  resize: none;
+  padding: 3px;
+  outline:none;
+  border-radius: 3px;
+}
+
+.buttonsBlock {
+  display: flex;
+  gap: 5px;
+}
+
+.buttonAdd {
+  background-color: green;
+  &:hover {
+    background-color: rgb(11, 83, 11);
+  }
+}
+
+.buttonCancell {
+  background-color: red;
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.468);
+  }
+}
+
+.button {
+  border: 0;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}

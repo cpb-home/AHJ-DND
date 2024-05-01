@@ -63,18 +63,44 @@ export default class Column {
   createFooter() {
     const footer = document.createElement('footer');
     footer.classList.add('column__footer');
-    footer.textContent = '+ Add another card';
-    footer.addEventListener('click', e => {
-      this.openAddingCart(e);
-    })
+    const footerCont = this.createFooterCont(footer);
+    
+    footer.append(footerCont);
     return footer;
   }
 
-  openAddingCart(e) {
-    
+  createFooterCont(footer) {
+    const footerCont = document.createElement('div');
+    footerCont.classList.add('footerCont');
+    footerCont.textContent = '+ Add another card';
+    footerCont.addEventListener('click', () => this.openAddingCart(footer));
+    return footerCont;
   }
 
-  addCard(text) {
+  openAddingCart(footer) {
+    footer.textContent = '';
+    const footerCont = document.createElement('div');
+    footerCont.classList.add('footerAdd');
+    footer.style.padding = '10px 0 0';
+    
+    const area = document.createElement('textarea');
+    area.classList.add('footerArea');
+    footerCont.append(area);
+
+    const buttonsBlock = document.createElement('div');
+    buttonsBlock.classList.add('buttonsBlock');
+
+    const buttonAdd = this.addButtonAdd();
+    buttonsBlock.append(buttonAdd);
+
+    const buttonCancell = this.addButtonCancell();
+    buttonsBlock.append(buttonCancell); 
+
+    footer.append(footerCont);
+    footer.append(buttonsBlock);
+  }
+
+  addCard(text, e) { // put to array, rerender
     this.cards.push(text);
 // get the click
     const cardList = e.target.closest('.cardList');
@@ -105,5 +131,35 @@ export default class Column {
 
   removeCardFromArr(id) {
     this.cards.splice(id, 1);
+  }
+
+  addButtonAdd() {
+    const buttonAdd = document.createElement('button');
+    buttonAdd.className = 'buttonAdd button';
+    buttonAdd.type = 'button';
+    buttonAdd.textContent = 'Add card';
+    buttonAdd.addEventListener('click', e => {
+      const parent = e.target.closest('.footerAdd');
+      const area = parent.querySelector('.footerArea');
+      this.addCard(area.value, e);
+    })
+    return buttonAdd;
+  }
+
+  addButtonCancell() {
+    const buttonCancell = document.createElement('button');
+    buttonCancell.className = 'buttonCancell button';
+    buttonCancell.type = 'button';
+    buttonCancell.textContent = 'Cancell';
+    buttonCancell.addEventListener('click', e => this.restoreFooter(e))
+    return buttonCancell;
+  }
+
+  restoreFooter(e) {
+    const footer = e.target.closest('.column__footer');
+    footer.textContent = '';
+    footer.style.padding = '10px 10px 0';
+    const footerCont = this.createFooterCont(footer);
+    footer.append(footerCont);
   }
 }
