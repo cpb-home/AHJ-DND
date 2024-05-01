@@ -1,0 +1,96 @@
+:root {
+  --main-color-darkestGrey: rgb(83, 82, 85);
+  --main-color-middleGrey: rgb(152, 152, 152);
+  --main-color-lightestGrey: rgb(208, 208, 208);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: rgb(42, 114, 207);
+  padding-top: 30px;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+}
+
+.column {
+  background-color: var(--main-color-lightestGrey);
+  padding: 10px;
+  border-radius: 3px;
+  height: fit-content;
+}
+
+.column__header {
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  padding: 0 10px 10px;
+  color: var(--main-color-darkestGrey);
+}
+
+.cardList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.card {
+  background-color: white;
+  color: var(--main-color-darkestGrey);
+  text-align: left;
+  padding: 10px;
+  border-radius: 3px;
+  position: relative;
+}
+
+.card-closeBtn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+  display: block;
+}
+
+.card-closeBtn:before, .card-closeBtn:after {
+  position: absolute;
+  left: 4px;
+  content: ' ';
+  height: 10px;
+  width: 2px;
+  background-color: var(--main-color-lightestGrey);
+}
+
+.card-closeBtn:before {
+  transform: rotate(45deg);
+}
+.card-closeBtn:after {
+  transform: rotate(-45deg);
+}
+
+.column__footer {
+  color: var(--main-color-middleGrey);
+  text-align: left;
+  padding: 10px 10px 0;
+  cursor: pointer;
+}
+
+.column__footer:hover {
+  color: var(--main-color-darkestGrey);
+}
