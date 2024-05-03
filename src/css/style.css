@@ -46,26 +46,34 @@ body {
 .cardList {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
 }
 
 .card {
+  padding: 10px 0;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.cardCont {
   background-color: white;
   color: var(--main-color-darkestGrey);
   text-align: left;
-  padding: 10px;
   border-radius: 3px;
-  position: relative;
+  width: 100%;
+  padding: 10px;
 }
 
 .card-closeBtn {
   position: absolute;
   right: 5px;
-  top: 5px;
+  top: 15px;
   width: 10px;
   height: 10px;
   cursor: pointer;
   display: block;
+  z-index: 10;
 }
 
 .card-closeBtn:before, .card-closeBtn:after {

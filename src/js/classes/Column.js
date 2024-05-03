@@ -2,7 +2,7 @@ export default class Column {
   constructor (title) {
     this.title = title;
     this.root = document.getElementById('root');
-    this.cards = ['dssc','scd'];
+    this.cards = [];
     this.latestId = 0;
   }
 
@@ -35,10 +35,21 @@ export default class Column {
   createCardList() {
     const cardList = document.createElement('div');
     cardList.classList.add('cardList');
+    if (localStorage.cards) {
+      const fromLS = this.readFromLS();
+      if (fromLS) {
+        this.cards = [];
+        fromLS.forEach(e => {
+          this.cards.push(e);
+        })
+      }
+    }
+
     for (let i = 0; i < this.cards.length; i++) {
       const card = this.createCard(i);
 
       cardList.append(card);
+      this.cardDragger(card);
     }
     return cardList;
   }
@@ -46,8 +57,12 @@ export default class Column {
   createCard(id) {
     const card = document.createElement('div');
     card.classList.add('card');
-    card.textContent = this.cards[id];
     card.dataset.id = id;
+    card.draggable = true;
+
+    const cardCont = document.createElement('div');
+    cardCont.classList.add('cardCont');
+    cardCont.textContent = this.cards[id];
 
     const closeBtn = document.createElement('span');
     closeBtn.classList.add('card-closeBtn');
@@ -56,6 +71,7 @@ export default class Column {
         this.deleteCard(e);
       }
     })
+    card.append(cardCont);
     card.append(closeBtn);
     return card;
   }
@@ -100,8 +116,9 @@ export default class Column {
     footer.append(buttonsBlock);
   }
 
-  addCard(text, e) { // put to array, rerender
+  addCard(text, e) {
     this.cards.push(text);
+    this.saveToLS();
     const col = e.target.closest('.column');
     const cardList = col.querySelector('.cardList');
     cardList.textContent = '';
@@ -119,6 +136,7 @@ export default class Column {
     const card = e.target.closest('.card');
     const id = card.dataset.id;
     this.removeCardFromArr(id);
+    this.saveToLS();
 
     const cardList = e.target.closest('.cardList');
     cardList.textContent = '';
@@ -166,4 +184,78 @@ export default class Column {
     const footerCont = this.createFooterCont(footer);
     footer.append(footerCont);
   }
+
+  saveToLS() {
+    if (localStorage.cards) {
+      const fromLS = JSON.parse(localStorage.getItem('cards'));
+      const found = fromLS.find(e => e.title === this.title);
+      if (found) {
+        found.content = this.cards;
+      } else {
+        fromLS.push({title: this.title, content: this.cards});
+      }
+      localStorage.setItem('cards', JSON.stringify(fromLS));
+    } else {
+      localStorage.setItem('cards', JSON.stringify([{title: this.title, content: this.cards}]));
+    }
+  }
+
+  readFromLS() {
+    if (localStorage.cards) {
+      const fromLS = JSON.parse(localStorage.getItem('cards'));
+      const fromLSFound = fromLS.find(e => e.title === this.title);
+      return fromLSFound ? fromLSFound.content : null;
+    } 
+  }
+
+
+  cardDragger(card) {
+    let dragged = null;
+    const source = card.closest(".cardList");
+    source.addEventListener("dragstart", e => {
+      dragged = e.target; 
+    });
+
+    const targets = document.querySelectorAll(".cardList");
+    const target = card.closest(".cardList");
+    target.addEventListener("dragover", (e) => e.preventDefault());
+    // полностью перемещаем перетаскиваемый элемент на целевую область
+    target.addEventListener("drop", (e) => {console.log(dragged)
+        dragged.parentNode.removeChild(dragged);
+         
+    });
+    // targets.forEach(target => {console.log(dragged)
+    //   target.addEventListener("dragover", (e) => e.preventDefault());
+    //   target.addEventListener("drop", (e) => {
+    //     //dragged.parentNode.removeChild(dragged);
+    //     target.insertBefore(e.target, dragged);
+    //     //e.target.appendChild(dragged);
+    //   });
+    // })
+  }
 }
+
+/*
+надо сделать перетаскивание элементов
+*/
+
+/*cardDragger(card) {
+    let dragged = null;
+    const sources = document.querySelectorAll(".cardList");
+    sources.forEach(source => {
+      source.addEventListener("dragstart", (e) => dragged = e.target);
+    })
+    const targets = document.querySelectorAll(".cardList");
+    targets.forEach(target => {
+      target.addEventListener("dragover", (e) => e.preventDefault());
+      target.addEventListener("drop", (e) => {
+        dragged.parentNode.removeChild(dragged);
+        if (e.target.classList.contains('card')) {
+          target.insertBefore(dragged, e.target);
+        } else {
+
+        }
+        //e.target.appendChild(dragged);
+      });
+    })
+*/
