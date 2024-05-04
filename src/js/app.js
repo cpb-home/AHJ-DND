@@ -1,4 +1,4 @@
-import Column from "./classes/Column";
+import Column from "./classes/Column/Column";
 
 const todo = new Column('todo');
 const progress = new Column('in progress');
