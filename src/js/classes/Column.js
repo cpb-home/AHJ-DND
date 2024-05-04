@@ -219,10 +219,18 @@ export default class Column {
     const targets = document.querySelectorAll(".cardList");
     const target = card.closest(".cardList");
     target.addEventListener("dragover", (e) => e.preventDefault());
-    // полностью перемещаем перетаскиваемый элемент на целевую область
-    target.addEventListener("drop", (e) => {console.log(dragged)
-        dragged.parentNode.removeChild(dragged);
-         
+    target.addEventListener("drop", (e) => {
+        //dragged.parentNode.removeChild(dragged);
+        console.log(e.currentTarget)
+        //target.append(dragged);
+        /*let cardOn = null;
+        if (e.target.classList.includes('cardCont')) {
+          cardOn = e.target.closest('.card');
+        } else if (e.target.classList.includes('card')) {
+          cardOn = e.target;
+        }
+        target.insertBefore(dragged, cardOn)*/
+        
     });
     // targets.forEach(target => {console.log(dragged)
     //   target.addEventListener("dragover", (e) => e.preventDefault());
