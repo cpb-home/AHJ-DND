@@ -47,50 +47,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   padding: 10px 0;
-}
-
-.card {
-  padding: 10px 0;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.cardCont {
-  background-color: white;
-  color: var(--main-color-darkestGrey);
-  text-align: left;
-  border-radius: 3px;
-  width: 100%;
-  padding: 10px;
-}
-
-.card-closeBtn {
-  position: absolute;
-  right: 5px;
-  top: 15px;
-  width: 10px;
-  height: 10px;
-  cursor: pointer;
-  display: block;
-  z-index: 10;
-}
-
-.card-closeBtn:before, .card-closeBtn:after {
-  position: absolute;
-  left: 4px;
-  content: ' ';
-  height: 10px;
-  width: 2px;
-  background-color: var(--main-color-lightestGrey);
-}
-
-.card-closeBtn:before {
-  transform: rotate(45deg);
-}
-.card-closeBtn:after {
-  transform: rotate(-45deg);
+  gap: 10px;
 }
 
 .column__footer {
@@ -129,26 +86,4 @@ body {
 .buttonsBlock {
   display: flex;
   gap: 5px;
-}
-
-.buttonAdd {
-  background-color: green;
-  &:hover {
-    background-color: rgb(11, 83, 11);
-  }
-}
-
-.buttonCancell {
-  background-color: red;
-  &:hover {
-    background-color: rgba(255, 0, 0, 0.468);
-  }
-}
-
-.button {
-  border: 0;
-  padding: 10px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
 }
