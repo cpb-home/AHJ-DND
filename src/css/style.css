@@ -160,3 +160,8 @@ body {
 .bordered {
   border: 1px dashed var(--main-color-middleGrey);
 }
+
+.phantom {
+  border: 1px dotted var(--main-color-middleGrey);
+  background-color: rgba(152, 152, 152, .5);;
+}
