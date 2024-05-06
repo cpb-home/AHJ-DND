@@ -1,0 +1,167 @@
+:root {
+  --main-color-darkestGrey: rgb(83, 82, 85);
+  --main-color-middleGrey: rgb(152, 152, 152);
+  --main-color-lightestGrey: rgb(208, 208, 208);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: rgb(42, 114, 207);
+  padding-top: 30px;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+}
+
+.column {
+  background-color: var(--main-color-lightestGrey);
+  padding: 10px;
+  border-radius: 3px;
+  height: fit-content;
+}
+
+.column__header {
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  padding: 0 10px 10px;
+  color: var(--main-color-darkestGrey);
+}
+
+.cardList {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 10px 0;
+  gap: 10px;
+}
+
+.column__footer {
+  color: var(--main-color-middleGrey);
+  text-align: left;
+  padding: 10px 10px 0;
+  cursor: pointer;
+}
+
+.column__footer:hover {
+  color: var(--main-color-darkestGrey);
+}
+
+.footerCont {
+  text-align: left;
+}
+
+.footerAdd {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerArea {
+  display: block;
+  font-family: inherit;
+  margin-bottom: 10px;
+  font-size: inherit;
+  border: 1px solid white;
+  height: 80px;
+  resize: none;
+  padding: 3px;
+  outline:none;
+  border-radius: 3px;
+}
+
+.buttonsBlock {
+  display: flex;
+  gap: 5px;
+}
+
+.card {
+  background-color: white;
+  position: relative;
+  cursor: pointer;
+  color: var(--main-color-darkestGrey);
+  text-align: left;
+  border-radius: 3px;
+  padding: 10px;
+  cursor: move;
+}
+
+.card:hover {
+  background-color: rgb(226, 226, 226);
+}
+
+.cardDragged {
+  background-color: rgb(124, 124, 124);
+}
+
+.card-closeBtn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+  display: block;
+  z-index: 10;
+}
+
+.card-closeBtn:before,
+.card-closeBtn:after {
+  position: absolute;
+  left: 4px;
+  content: " ";
+  height: 10px;
+  width: 2px;
+  background-color: var(--main-color-lightestGrey);
+}
+
+.card-closeBtn:before {
+  transform: rotate(45deg);
+}
+.card-closeBtn:after {
+  transform: rotate(-45deg);
+}
+
+.buttonAdd {
+  background-color: green;
+  &:hover {
+      background-color: rgb(11, 83, 11);
+  }
+}
+
+.buttonCancell {
+  background-color: red;
+  &:hover {
+      background-color: rgba(255, 0, 0, 0.468);
+  }
+}
+
+.button {
+  border: 0;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bordered {
+  border: 1px dashed var(--main-color-middleGrey);
+}
+
+.phantom {
+  border: 1px dotted var(--main-color-middleGrey);
+  background-color: rgba(152, 152, 152, .5);;
+}
