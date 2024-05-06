@@ -7,6 +7,8 @@ export default class Column {
     this.root = document.getElementById('root');
     this.cards = [];
     this.latestId = 0;
+    this.flagDeleted = false;
+    this.flagAdded = false;
   }
 
   render() {
@@ -38,6 +40,7 @@ export default class Column {
   createCardList() {
     const cardList = document.createElement('div');
     cardList.classList.add('cardList');
+    cardList.dataset.title = this.title;
     if (localStorage.cards) {
       const fromLS = this.readFromLS();
       if (fromLS) {
@@ -52,7 +55,6 @@ export default class Column {
       const card = this.createCard(i);
 
       cardList.append(card);
-      this.cardDragger();
     }
     if (this.cards.length === 0) {
       cardList.classList.add('bordered');
@@ -60,6 +62,7 @@ export default class Column {
     } else {
       cardList.classList.remove('bordered');
     }
+    this.cardDragger();
     return cardList;
   }
 
@@ -138,6 +141,7 @@ export default class Column {
 
       cardList.append(card);
     }
+    this.cardDragger();
     cardList.classList.remove('bordered');
     this.restoreFooter(e);
   }
@@ -201,7 +205,8 @@ export default class Column {
 
   cardDragger() {
     let dragged = undefined;
-    const isUpperThenCenter = (e) => {
+    let startedList, finishedList;
+    const isUpperThenCenter = e => {
       const currentElementCoord = e.target.getBoundingClientRect();
       const currentElementCenter = currentElementCoord.y + currentElementCoord.height / 2;
 
@@ -216,13 +221,17 @@ export default class Column {
       }
     }
 
-    const cont = document.querySelector('#root');
-    cont.addEventListener("dragstart", e => {
+    const source = document.querySelector('#root');
+    const dragStart = e => {
       dragged = e.target;
-    });
+      startedList = e.target.closest('.cardList');
+      this.flagDeleted = false;
+      this.flagAdded = false;
+    }
+    source.addEventListener("dragstart", e => dragStart(e));
 
     const target = document.querySelector('#root');
-    target.addEventListener("dragover", (e) => {
+    const dragOver = e => {
       e.preventDefault();
 
       const height = dragged.offsetHeight;
@@ -232,16 +241,9 @@ export default class Column {
       phantom.style.height = height + 'px';
       phantom.style.width = width + 'px';
       
-
-
-
-
-      
-
-// не перемещается фантом
+      //phantoms
       let current;
       if (!(e.target.classList.contains('card') || e.target.classList.contains('cardList' || e.target.classList.contains('phantom')))) {
-        //delPhantom();
         return;
       } 
 
@@ -323,28 +325,10 @@ export default class Column {
           }
         }
       }
+    }
+    target.addEventListener("dragover", e => dragOver(e));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    })
-
-    target.addEventListener("drop", (e) => {
-      //delPhantom();
-
+    const drop = e => {
       if (!(e.target.classList.contains('card') || e.target.classList.contains('cardList') || e.target.classList.contains('phantom'))) {
         return;
       }
@@ -385,19 +369,71 @@ export default class Column {
       } else {
         e.target.before(dragged);
         delPhantom();
-
       }
-    });
+    }
+    target.addEventListener("drop", e => drop(e));
 
-    target.addEventListener("dragend", () => delPhantom());
+    const dragEnd = () => {
+      delPhantom();
+      finishedList = dragged.closest('.cardList');
+      //this.restoreAfterDragged(startedList, finishedList, dragged);
+    }
+    target.addEventListener("dragend", () => dragEnd());
+  }
+
+  restoreAfterDragged(startedList, finishedList, dragged) {
+    if (!finishedList || !startedList) {
+      return;
+    }
+
+    if (this.title === finishedList.dataset.title && !this.flagAdded) {
+      const currentCard = finishedList.querySelectorAll('.card');
+      if (currentCard.length > 0) {
+        for (let i = 0; i < currentCard.length; i++) {
+          if (currentCard[i].textContent !== this.cards[i]) {
+            this.cards.splice(i, 0, dragged.textContent);
+
+            
+            
+            finishedList.textContent = '';
+
+            for (let i = 0; i < this.cards.length; i++) {
+              const card = this.createCard(i);
+
+              finishedList.append(card);
+            }
+
+
+
+            break;
+          }
+        }
+      }
+      //console.log(currentCard)
+
+      this.flagAdded = true;
+      console.log(this.cards);
+    }
+
+    if (this.title === startedList.dataset.title && !this.flagDeleted) {
+      this.cards.splice(dragged.dataset.id, 1);
+
+
+      startedList.textContent = '';
+
+      for (let i = 0; i < this.cards.length; i++) {
+        const card = this.createCard(i);
+
+        startedList.append(card);
+      }
+
+
+      this.flagDeleted = true;
+      
+      console.log(this.cards);
+    }
   }
 }
-
-
-
-
-
-
 
 
 
