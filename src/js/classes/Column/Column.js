@@ -62,7 +62,7 @@ export default class Column {
     } else {
       cardList.classList.remove('bordered');
     }
-    this.cardDragger();
+
     return cardList;
   }
 
@@ -141,7 +141,7 @@ export default class Column {
 
       cardList.append(card);
     }
-    this.cardDragger();
+
     cardList.classList.remove('bordered');
     this.restoreFooter(e);
   }
@@ -202,7 +202,7 @@ export default class Column {
       return fromLSFound ? fromLSFound.content : null;
     } 
   }
-
+/*
   cardDragger() {
     let dragged = undefined;
     let startedList, finishedList;
@@ -376,24 +376,24 @@ export default class Column {
     const dragEnd = () => {
       delPhantom();
       finishedList = dragged.closest('.cardList');
+      console.log(startedList);
       //this.restoreAfterDragged(startedList, finishedList, dragged);
     }
     target.addEventListener("dragend", () => dragEnd());
-  }
+  }*/
 
   restoreAfterDragged(startedList, finishedList, dragged) {
+    //console.log(startedList, finishedList, dragged)
     if (!finishedList || !startedList) {
       return;
     }
-
+    
     if (this.title === finishedList.dataset.title && !this.flagAdded) {
       const currentCard = finishedList.querySelectorAll('.card');
       if (currentCard.length > 0) {
         for (let i = 0; i < currentCard.length; i++) {
           if (currentCard[i].textContent !== this.cards[i]) {
             this.cards.splice(i, 0, dragged.textContent);
-
-            
             
             finishedList.textContent = '';
 
@@ -402,22 +402,20 @@ export default class Column {
 
               finishedList.append(card);
             }
-
-
-
+            this.cardDragger();
             break;
           }
         }
       }
-      //console.log(currentCard)
+      //console.log(this.cards)
 
       this.flagAdded = true;
-      console.log(this.cards);
     }
+
+
 
     if (this.title === startedList.dataset.title && !this.flagDeleted) {
       this.cards.splice(dragged.dataset.id, 1);
-
 
       startedList.textContent = '';
 
@@ -426,10 +424,9 @@ export default class Column {
 
         startedList.append(card);
       }
-
+      this.cardDragger();
 
       this.flagDeleted = true;
-      
       console.log(this.cards);
     }
   }
